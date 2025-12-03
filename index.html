@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PPMG 2025 - Sistema Completo de Estudos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fonte e ícones -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      integrity="sha512-T2oTqE0dC5Q0PqC0hZ4G7kNz6Z0qK6p6nXyZb7i7ZVt0uQv5q8H7tNcnZ5vYdVBrpP+uZL+0rTtV7KXo5l9sQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      :root {
+        --primary-blue: #0052cc;
+        --primary-dark: #003a8c;
+        --bg-light: #f5f7fb;
+        --card-bg: #ffffff;
+        --text-main: #1f2933;
+        --text-muted: #6b7280;
+        --success: #16a34a;
+        --danger: #dc2626;
+        --warning: #f59e0b;
+        --border-radius-lg: 18px;
+        --shadow-soft: 0 15px 40px rgba(15, 23, 42, 0.12);
+      }
+
+      [data-theme="dark"] {
+        --bg-light: #020617;
+        --card-bg: #0f172a;
+        --text-main: #e5e7eb;
+        --text-muted: #9ca3af;
+        --primary-blue: #2563eb;
+        --primary-dark: #1d4ed8;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: var(--bg-light);
+        color: var(--text-main);
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px 16px 40px;
+      }
+
+      /* HEADER */
+
+      .app-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 24px;
+        background: var(--card-bg);
+        box-shadow: var(--shadow-soft);
+        border-radius: 0 0 24px 24px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .app-header-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .app-logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+      }
+
+      .app-title {
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .app-subtitle {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .app-header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .theme-toggle {
+        border: none;
+        border-radius: 999px;
+        padding: 8px 12px;
+        cursor: pointer;
+        background: #0f172a0d;
+        color: var(--text-main);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+
+      .nav-tabs {
+        display: flex;
+        gap: 8px;
+        padding: 16px 24px 0;
+        background: transparent;
+      }
+
+      .nav-tab {
+        padding: 8px 16px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--text-muted);
+        background: transparent;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .nav-tab.active {
+        background: var(--primary-blue);
+        color: #ffffff;
+        box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
+      }
+
+      /* SEÇÕES PRINCIPAIS */
+
+      .content-section {
+        display: none;
+        margin-top: 24px;
+      }
+
+      .content-section.active {
+        display: block;
+      }
+
+      /* DASHBOARD */
+
+      .cards-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+
+      .stat-card {
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        padding: 18px 18px 16px;
+        box-shadow: var(--shadow-soft);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-label {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
+
+      .stat-value {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .stat-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-size: 11px;
+      }
+
+      .chip-success {
+        background: rgba(22, 163, 74, 0.08);
+        color: #16a34a;
+      }
+
+      .chip-warning {
+        background: rgba(245, 158, 11, 0.08);
+        color: #f59e0b;
+      }
+
+      .chip-primary {
+        background: rgba(37, 99, 235, 0.08);
+        color: #2563eb;
+      }
+
+      .progress-section {
+        margin-top: 24px;
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        padding: 20px 22px;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .progress-section h2 {
+        font-size: 18px;
+        margin-bottom: 14px;
+      }
+
+      .progress-item {
+        margin-bottom: 10px;
+      }
+
+      .progress-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+
+      .progress-bar-container {
+        width: 100%;
+        height: 8px;
+        background: rgba(148, 163, 184, 0.25);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #22c55e, #16a34a);
+      }
+
+      /* BOTÕES GERAIS */
+
+      .btn {
+        border-radius: 999px;
+        border: none;
+        padding: 10px 18px;
+        font-size: 14px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        justify-content: center;
+      }
+
+      .btn-primary {
+        background: var(--primary-blue);
+        color: #ffffff;
+      }
+
+      .btn-secondary {
+        background: #e5e7eb;
+        color: #111827;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+      }
+
+      /* QUIZ */
+
+      .quiz-container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .question-card {
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        padding: 24px 24px 20px;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+
+      .question-number {
+        font-weight: 600;
+        font-size: 18px;
+      }
+
+      .badge-materia {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        background: rgba(37, 99, 235, 0.09);
+        color: #2563eb;
+      }
+
+      .question-topic {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+      }
+
+      .question-text {
+        font-size: 16px;
+        margin-bottom: 18px;
+      }
+
+      .options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .option {
+        border-radius: 999px;
+        border: 1px solid #e5e7eb;
+        background: #f9fafb;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.15s ease;
+        font-size: 14px;
+      }
+
+      .option-letter {
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        border: 1px solid #d1d5db;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        background: #ffffff;
+      }
+
+      .option.selected {
+        border-color: #2563eb;
+        background: rgba(37, 99, 235, 0.06);
+      }
+
+      .option.correct {
+        border-color: #16a34a;
+        background: rgba(22, 163, 74, 0.06);
+      }
+
+      .option.wrong {
+        border-color: #dc2626;
+        background: rgba(220, 38, 38, 0.06);
+      }
+
+      .option.disabled {
+        cursor: default;
+        opacity: 0.95;
+      }
+
+      .question-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+      }
+
+      .explanation-box {
+        margin-top: 14px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(37, 99, 235, 0.05);
+        color: var(--text-main);
+        font-size: 14px;
+        display: none;
+      }
+
+      .explanation-box.show {
+        display: block;
+      }
+
+      /* SEÇÃO SIMULADOS */
+
+      .simulado-card {
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        padding: 24px 24px 20px;
+        box-shadow: var(--shadow-soft);
+        margin-top: 18px;
+      }
+
+      .simulado-header {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      .simulado-meta {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+      }
+
+      .simulado-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .simulado-tag {
+        font-size: 13px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      @media (max-width: 768px) {
+        .app-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        .nav-tabs {
+          flex-wrap: wrap;
+        }
+        .question-card {
+          padding: 18px 14px;
+        }
+        .simulado-card {
+          padding: 18px 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="app-header-left">
+        <div class="app-logo">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div>
+          <div class="app-title">PPMG 2025</div>
+          <div class="app-subtitle">Sistema Completo de Estudos</div>
+        </div>
+      </div>
+
+      <div class="app-header-right">
+        <button class="theme-toggle" onclick="toggleTheme()">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </header>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-section="dashboard">
+        <i class="fas fa-chart-line"></i> Painel
+      </button>
+      <button class="nav-tab" data-section="quiz">
+        <i class="fas fa-question-circle"></i> Quiz Geral
+      </button>
+      <button class="nav-tab" data-section="simulados">
+        <i class="fas fa-clipboard-list"></i> Simulados
+      </button>
+    </nav>
+
+    <div class="container">
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="content-section active">
+        <div class="cards-row">
+          <div class="stat-card">
+            <div class="stat-label">Questões Respondidas</div>
+            <div class="stat-value" id="answeredQuestionsCard">0</div>
+            <div class="stat-chip chip-primary">
+              <i class="fas fa-bolt"></i> Atividade total
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Acertos</div>
+            <div class="stat-value" id="correctAnswersCard">0</div>
+            <div class="stat-chip chip-success">
+              <i class="fas fa-arrow-up"></i> Evolução
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Taxa de Acerto Geral</div>
+            <div class="stat-value" id="accuracyCard">0%</div>
+            <div class="stat-chip chip-warning">
+              <i class="fas fa-target"></i> Meta 70%+
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Total de Questões no Banco</div>
+            <div class="stat-value" id="totalQuestionsCard">0</div>
+            <div class="stat-chip chip-primary">
+              <i class="fas fa-database"></i> Questões cadastradas
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-section">
+          <h2><i class="fas fa-chart-pie"></i> Progresso por Matéria</h2>
+          <div id="progressContainer"></div>
+        </div>
+
+        <div
+          style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 20px"
+        >
+          <button class="btn btn-primary" onclick="irParaQuiz()">
+            <i class="fas fa-play"></i> Iniciar Quiz
+          </button>
+
+          <button class="btn btn-secondary" onclick="showSection('simulados')">
+            <i class="fas fa-clipboard-check"></i> Ver Simulados
+          </button>
+
+          <button
+            class="btn btn-secondary"
+            onclick="resetarEstatisticas()"
+            style="background: var(--danger); color: white"
+          >
+            <i class="fas fa-redo"></i> Resetar Estatísticas
+          </button>
+        </div>
+      </section>
+
+      <!-- QUIZ GERAL -->
+      <section id="quiz" class="content-section">
+        <div class="quiz-container">
+          <select id="subjectFilter" class="filter-select">
+            <option value="">Todas as Matérias</option>
+            <option value="PORT">Português</option>
+            <option value="RL">Raciocínio Lógico</option>
+            <option value="INFO">Informática</option>
+            <option value="ND">Noções de Direito</option>
+            <option value="DH">Direitos Humanos</option>
+            <option value="LEGESP">Legislação Especial</option>
+          </select>
+          <button class="btn btn-secondary" id="shuffleButton">
+            <i class="fas fa-random"></i> Embaralhar
+          </button>
+        </div>
+
+        <div class="quiz-container">
+          <div style="display: flex; gap: 10px; margin-bottom: 14px">
+            <select
+              id="subjectFilter"
+              class="btn btn-secondary"
+              style="flex: 1"
+            >
+              <option value="">Todas as Matérias</option>
+              <option value="Língua Portuguesa">Língua Portuguesa</option>
+              <option value="Raciocínio Lógico">Raciocínio Lógico</option>
+              <option value="Informática">Informática</option>
+              <option value="Direito Penal">Direito Penal</option>
+              <option value="Direito Constitucional">
+                Direito Constitucional
+              </option>
+              <option value="Legislação Especial">Legislação Especial</option>
+            </select>
+
+            <button id="shuffleButton" class="btn btn-secondary">
+              <i class="fas fa-random"></i> Embaralhar
+            </button>
+          </div>
+
+          <div class="question-card">
+            <div class="question-header">
+              <div class="question-number" id="questionNumber">
+                Questão 1 de 0
+              </div>
+              <div class="badge-materia" id="questionSubject">MATÉRIA</div>
+            </div>
+
+            <div class="question-topic" id="questionTopic">
+              Assunto da questão
+            </div>
+
+            <div class="question-text" id="questionText">
+              Carregando questão...
+            </div>
+
+            <div class="options-container" id="optionsContainer"></div>
+
+            <div class="question-actions">
+              <button id="prevButton" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Anterior
+              </button>
+
+              <div style="display: flex; gap: 8px">
+                <button id="confirmButton" class="btn btn-primary" disabled>
+                  <i class="fas fa-check"></i> Confirmar
+                </button>
+                <button
+                  id="nextButton"
+                  class="btn btn-secondary"
+                  style="display: none"
+                >
+                  Próxima ➡️
+                </button>
+              </div>
+            </div>
+
+            <div class="explanation-box" id="explanationBox">
+              <strong>Comentário:</strong>
+              <div id="explanationText"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- OUTRAS SEÇÕES -->
+
+      <!-- SIMULADOS -->
+      <section id="simulados" class="content-section">
+        <div class="simulado-card">
+          <div class="simulado-header">
+            🎯 SIMULADO PPMG 2025 - Prova Completa
+          </div>
+          <div class="simulado-meta">
+            120 questões • 4 horas • Avaliação completa
+          </div>
+
+          <div class="simulado-tags">
+            <span class="simulado-tag">
+              <i class="fas fa-language"></i> 30 Português
+            </span>
+            <span class="simulado-tag">
+              <i class="fas fa-brain"></i> 10 Raciocínio Lógico
+            </span>
+            <span class="simulado-tag">
+              <i class="fas fa-gavel"></i> 10 Dir. Penal
+            </span>
+            <span class="simulado-tag">
+              <i class="fas fa-scale-balanced"></i> 10 Dir. Constitucional
+            </span>
+            <span class="simulado-tag">
+              <i class="fas fa-computer"></i> 15 Informática
+            </span>
+            <span class="simulado-tag">
+              <i class="fas fa-book"></i> 45 Legislação Especial
+            </span>
+          </div>
+
+          <div class="cards-row" style="margin-top: 6px">
+            <div class="stat-card">
+              <div class="stat-label">Total de Questões</div>
+              <div class="stat-value">120</div>
+              <div class="stat-chip chip-primary">
+                <i class="fas fa-list-ol"></i> Prova completa
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Duração Máxima</div>
+              <div class="stat-value">4 horas</div>
+              <div class="stat-chip chip-warning">
+                <i class="fas fa-stopwatch"></i> Controle de tempo
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Modo de Correção</div>
+              <div class="stat-value">Questão a questão</div>
+              <div class="stat-chip chip-success">
+                <i class="fas fa-check-double"></i> Com explicação
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 18px; text-align: center">
+            <button class="btn btn-primary" onclick="iniciarSimulado()">
+              <i class="fas fa-play"></i> Iniciar Simulado
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="historico" class="content-section">
+        <div class="quiz-container">
+          <h2 style="color: var(--primary-blue)">
+            <i class="fas fa-history"></i> Histórico
+          </h2>
+          <p>Em desenvolvimento...</p>
+        </div>
+      </section>
+
+      <section id="configuracoes" class="content-section">
+        <div class="quiz-container">
+          <h2 style="color: var(--primary-blue)">
+            <i class="fas fa-cog"></i> Configurações
+          </h2>
+          <p>Em desenvolvimento...</p>
+        </div>
+      </section>
+    </div>
+
+        </div> <!-- fim .container -->
+
+    <!-- SCRIPTS -->
+    <script src="simulado01.js"></script>
+    <script src="questoes.js"></script>
+
+    <script>
+      let allQuestions = [];
+      let filteredQuestions = [];
+      let currentQuestionIndex = 0;
+      let selectedOption = null;
+      let isAnswered = false;
+
+      // SIMULADO
+      let tempoInicio = null;
+      let timerInterval = null;
+
+      function iniciarSimulado() {
+        if (typeof simulado01 === "undefined" || !Array.isArray(simulado01.questoes)) {
+          alert("⚠️ Erro: simulado01.js não carregado ou sem array 'questoes'.");
+          return;
+        }
+
+        const total   = simulado01.questoes.length;
+        const duracao = simulado01.duracao || 240;
+
+        const confirma = confirm(
+          `🎯 SIMULADO PPMG 2025\n\n` +
+          `📝 ${total} questões\n` +
+          `⏱️ Tempo: ${duracao} minutos (${duracao / 60} horas)\n\n` +
+          `Cada questão será corrigida na hora, com explicação.\n\n` +
+          `Deseja iniciar o simulado agora?`
+        );
+        if (!confirma) return;
+
+        document.body.dataset.modoSimulado = "true";
+
+        allQuestions = simulado01.questoes;
+        filteredQuestions = [...allQuestions];
+        currentQuestionIndex = 0;
+
+        const totalQuestionsCard = document.getElementById("totalQuestionsCard");
+        if (totalQuestionsCard) totalQuestionsCard.textContent = filteredQuestions.length;
+
+        showSection("quiz");
+
+        tempoInicio = Date.now();
+        iniciarTimerSimulado();
+
+        renderQuestion();
+      }
+
+      function adicionarTimerVisivel() {
+        let timerDiv = document.getElementById("timerSimulado");
+        if (!timerDiv) {
+          timerDiv = document.createElement("div");
+          timerDiv.id = "timerSimulado";
+          timerDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 9999;
+            font-family: 'Courier New', monospace;
+          `;
+          document.body.appendChild(timerDiv);
+        }
+      }
+
+      function iniciarTimerSimulado() {
+        const duracao = simulado01.duracao || 240;
+        const tempoLimite = duracao * 60 * 1000;
+
+        adicionarTimerVisivel();
+        if (timerInterval) clearInterval(timerInterval);
+
+        timerInterval = setInterval(() => {
+          const tempoDecorrido = Date.now() - tempoInicio;
+          const tempoRestante = tempoLimite - tempoDecorrido;
+
+          if (tempoRestante <= 0) {
+            clearInterval(timerInterval);
+            const timerElement = document.getElementById("timerSimulado");
+            if (timerElement) timerElement.textContent = "⏱️ 00:00:00";
+            alert("⏰ Tempo esgotado! Você pode continuar vendo as questões, mas o tempo oficial do simulado acabou.");
+            return;
+          }
+
+          const horas    = Math.floor(tempoRestante / 3600000);
+          const minutos  = Math.floor((tempoRestante % 3600000) / 60000);
+          const segundos = Math.floor((tempoRestante % 60000) / 1000);
+
+          const timerElement = document.getElementById("timerSimulado");
+          if (timerElement) {
+            timerElement.textContent =
+              `⏱️ ${String(horas).padStart(2,"0")}:` +
+              `${String(minutos).padStart(2,"0")}:` +
+              `${String(segundos).padStart(2,"0")}`;
+
+            if (tempoRestante <= 600000) {
+              timerElement.style.background =
+                "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)";
+            }
+          }
+        }, 1000);
+      }
+
+      // ESTATÍSTICAS E ELEMENTOS
+      const stats = JSON.parse(localStorage.getItem("ppmg_stats") || "{}");
+
+      const subjectFilter = document.getElementById("subjectFilter");
+      const shuffleButton = document.getElementById("shuffleButton");
+      const questionNumberElement = document.getElementById("questionNumber");
+      const questionSubjectElement = document.getElementById("questionSubject");
+      const questionTopicElement = document.getElementById("questionTopic");
+      const questionTextElement = document.getElementById("questionText");
+      const optionsContainer = document.getElementById("optionsContainer");
+      const prevButton = document.getElementById("prevButton");
+      const confirmButton = document.getElementById("confirmButton");
+      const nextButton = document.getElementById("nextButton");
+      const explanationBox = document.getElementById("explanationBox");
+      const explanationText = document.getElementById("explanationText");
+      const totalQuestionsCard = document.getElementById("totalQuestionsCard");
+      const answeredQuestionsCard = document.getElementById("answeredQuestionsCard");
+      const correctAnswersCard = document.getElementById("correctAnswersCard");
+      const accuracyCard = document.getElementById("accuracyCard");
+      const progressContainer = document.getElementById("progressContainer");
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+          document.querySelector(".theme-toggle i").className = "fas fa-sun";
+        }
+
+        if (Array.isArray(bancodeQuestoes) && bancodeQuestoes.length > 0) {
+          allQuestions = bancodeQuestoes;
+          filteredQuestions = [...allQuestions];
+        } else {
+          allQuestions = [];
+          filteredQuestions = [];
+        }
+
+        totalQuestionsCard.textContent = filteredQuestions.length;
+        updateStatsUI();
+      });
+
+      function toggleTheme() {
+        const icon = document.querySelector(".theme-toggle i");
+        if (document.documentElement.getAttribute("data-theme") === "dark") {
+          document.documentElement.removeAttribute("data-theme");
+          localStorage.setItem("theme", "light");
+          icon.className = "fas fa-moon";
+        } else {
+          document.documentElement.setAttribute("data-theme", "dark");
+          localStorage.setItem("theme", "dark");
+          icon.className = "fas fa-sun";
+        }
+      }
+
+      function irParaQuiz() {
+        showSection("quiz");
+        if (!filteredQuestions.length && allQuestions.length) {
+          filteredQuestions = [...allQuestions];
+        }
+        if (filteredQuestions.length) {
+          currentQuestionIndex = 0;
+          renderQuestion();
+        }
+      }
+
+      function showSection(sectionId) {
+        document
+          .querySelectorAll(".content-section")
+          .forEach((s) => s.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-tab")
+          .forEach((t) => t.classList.remove("active"));
+        document.getElementById(sectionId).classList.add("active");
+        document
+          .querySelector(`[data-section="${sectionId}"]`)
+          .classList.add("active");
+      }
+
+      document.querySelectorAll(".nav-tab").forEach((tab) => {
+        tab.addEventListener("click", function () {
+          showSection(this.dataset.section);
+        });
+      });
+
+      subjectFilter.addEventListener("change", () => {
+        const materia = subjectFilter.value;
+        filteredQuestions = materia
+          ? allQuestions.filter((q) => q.materia === materia)
+          : [...allQuestions];
+        currentQuestionIndex = 0;
+        totalQuestionsCard.textContent = filteredQuestions.length;
+        renderQuestion();
+      });
+
+      shuffleButton.addEventListener("click", () => {
+        filteredQuestions.sort(() => Math.random() - 0.5);
+        currentQuestionIndex = 0;
+        renderQuestion();
+      });
+
+      function renderQuestion() {
+        if (!filteredQuestions.length) {
+          questionTextElement.textContent = "Nenhuma questão disponível.";
+          optionsContainer.innerHTML = "";
+          questionNumberElement.textContent = "Questão 0 de 0";
+          questionSubjectElement.textContent = "MATÉRIA";
+          questionTopicElement.textContent = "";
+          confirmButton.disabled = true;
+          nextButton.style.display = "none";
+          explanationBox.classList.remove("show");
+          return;
+        }
+
+        const questao = filteredQuestions[currentQuestionIndex];
+        questionNumberElement.textContent = `Questão ${
+          currentQuestionIndex + 1
+        } de ${filteredQuestions.length}`;
+        questionSubjectElement.textContent = questao.materia || "MATÉRIA";
+        questionTopicElement.textContent = questao.assunto || "";
+        questionTextElement.textContent = questao.enunciado || "";
+
+        optionsContainer.innerHTML = "";
+        Object.entries(questao.alternativas).forEach(([letra, texto]) => {
+          const option = document.createElement("button");
+          option.className = "option";
+          option.dataset.letter = letra;
+          option.innerHTML = `
+            <span class="option-letter">${letra}</span>
+            <span class="option-text">${texto}</span>
+          `;
+          option.addEventListener("click", () => selectOption(option));
+          optionsContainer.appendChild(option);
+        });
+
+        selectedOption = null;
+        isAnswered = false;
+        confirmButton.disabled = true;
+        confirmButton.style.display = "inline-flex";
+        nextButton.style.display = "none";
+        explanationBox.classList.remove("show");
+        prevButton.disabled = currentQuestionIndex === 0;
+      }
+
+      function selectOption(optionElement) {
+        if (isAnswered) return;
+        document
+          .querySelectorAll(".option")
+          .forEach((opt) => opt.classList.remove("selected"));
+        optionElement.classList.add("selected");
+        selectedOption = optionElement;
+        confirmButton.disabled = false;
+      }
+
+      function confirmAnswer() {
+        if (!selectedOption || isAnswered) return;
+        isAnswered = true;
+        const questao = filteredQuestions[currentQuestionIndex];
+        const correta = questao.correta;
+
+        document.querySelectorAll(".option").forEach((opt) => {
+          opt.classList.add("disabled");
+          const letra = opt.dataset.letter;
+          if (letra === correta) opt.classList.add("correct");
+          else if (opt === selectedOption) opt.classList.add("wrong");
+        });
+
+        explanationText.textContent = questao.explicacao || "";
+        explanationBox.classList.add("show");
+        updateStatsAfterAnswer(
+          questao,
+          selectedOption.dataset.letter === correta
+        );
+        confirmButton.style.display = "none";
+        nextButton.style.display = "inline-flex";
+      }
+
+      confirmButton.addEventListener("click", confirmAnswer);
+
+      prevButton.addEventListener("click", () => {
+        if (currentQuestionIndex > 0) {
+          currentQuestionIndex--;
+          renderQuestion();
+        }
+      });
+
+      nextButton.addEventListener("click", () => {
+        if (currentQuestionIndex < filteredQuestions.length - 1) {
+          currentQuestionIndex++;
+          renderQuestion();
+        }
+      });
+
+      function updateStatsAfterAnswer(questao, acertou) {
+        const materia = questao.materia || "GERAL";
+        if (!stats.totalRespondidas) stats.totalRespondidas = 0;
+        if (!stats.acertos) stats.acertos = 0;
+        if (!stats.porMateria) stats.porMateria = {};
+
+        stats.totalRespondidas++;
+        if (acertou) stats.acertos++;
+
+        if (!stats.porMateria[materia])
+          stats.porMateria[materia] = { total: 0, acertos: 0 };
+        stats.porMateria[materia].total++;
+        if (acertou) stats.porMateria[materia].acertos++;
+
+        localStorage.setItem("ppmg_stats", JSON.stringify(stats));
+        updateStatsUI();
+      }
+
+      function updateStatsUI() {
+        const totalResp = stats.totalRespondidas || 0;
+        const acertos = stats.acertos || 0;
+        const taxa = totalResp ? Math.round((acertos / totalResp) * 100) : 0;
+
+        answeredQuestionsCard.textContent = totalResp;
+        correctAnswersCard.textContent = acertos;
+        accuracyCard.textContent = taxa + "%";
+
+        const materiasNomes = {
+          "Língua Portuguesa": "Português",
+          "Raciocínio Lógico": "Raciocínio Lógico",
+          Informática: "Informática",
+          "Direito Penal": "Direito Penal",
+          "Direito Constitucional": "Dir. Constitucional",
+          "Legislação Especial": "Legislação Especial",
+        };
+
+        progressContainer.innerHTML = "";
+        Object.entries(materiasNomes).forEach(([cod, nome]) => {
+          const mStats = (stats.porMateria && stats.porMateria[cod]) || {
+            total: 0,
+            acertos: 0,
+          };
+          const p = mStats.total
+            ? Math.round((mStats.acertos / mStats.total) * 100)
+            : 0;
+          progressContainer.innerHTML += `
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">${nome}</span>
+                <span class="progress-percentage">${p}% (${mStats.acertos}/${mStats.total})</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar" style="width:${p}%"></div>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      function resetarEstatisticas() {
+        if (
+          confirm(
+            "⚠️ Tem certeza que deseja ZERAR todas as estatísticas?\n\nIsso apagará:\n- Questões respondidas\n- Acertos e erros\n- Progresso por matéria\n\nEsta ação não pode ser desfeita!"
+          )
+        ) {
+          localStorage.removeItem("ppmg_stats");
+          stats.totalRespondidas = 0;
+          stats.acertos = 0;
+          stats.porMateria = {};
+          updateStatsUI();
+          alert("✅ Estatísticas resetadas com sucesso!");
+        }
+      }
+    </script>
+  </body>
+</html>
